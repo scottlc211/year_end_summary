@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 年度工作汇报 | Product Iteration Report</title>
+    <meta name="description" content="2025 Year-End Summary of Product Iterations.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Vue 3 -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                        },
+                    },
+                    animation: {
+                        'float': 'float 8s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        'slide-up': 'slideUp 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Glassmorphism Utilities */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+        }
+        
+        .dark .glass-panel {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-color: rgba(99, 102, 241, 0.4);
+        }
+
+        .dark .glass-card:hover {
+            background: rgba(30, 41, 59, 0.8);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            border-color: rgba(99, 102, 241, 0.5);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.3);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(99, 102, 241, 0.5);
+        }
+
+        /* Background Shapes */
+        .bg-shape {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            opacity: 0.5;
+        }
+        
+        /* Image Zoom */
+        .img-zoom-container {
+            overflow: hidden;
+        }
+        .img-zoom {
+            transition: transform 0.5s ease;
+        }
+        .img-zoom:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-300">
+
+    <div id="app" class="min-h-screen flex flex-col">
+        
+        <!-- Background Shapes -->
+        <div class="bg-shape bg-purple-400/30 dark:bg-purple-900/20 w-[600px] h-[600px] top-[-100px] left-[-100px] animate-float"></div>
+        <div class="bg-shape bg-indigo-400/30 dark:bg-indigo-900/20 w-[500px] h-[500px] bottom-0 right-0 animate-float" style="animation-delay: -3s;"></div>
+        <div class="bg-shape bg-blue-400/20 dark:bg-blue-900/10 w-96 h-96 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-float" style="animation-delay: -5s;"></div>
+
+        <!-- Navbar -->
+        <nav class="fixed top-0 w-full z-50 px-4 sm:px-6 lg:px-8 pt-4">
+            <div class="max-w-7xl mx-auto glass-panel rounded-2xl px-6 h-16 flex justify-between items-center">
+                <div class="flex items-center gap-3 cursor-pointer" @click="goHome">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg shadow-primary-500/30">
+                        R
+                    </div>
+                    <span class="font-bold text-lg tracking-tight">2025 Report</span>
+                </div>
+                
+                <div class="flex items-center gap-4">
+                    <button @click="toggleTheme" class="p-2 rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-700/50 transition-colors">
+                        <span v-if="isDark">🌞</span>
+                        <span v-else>🌙</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="flex-grow pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+            
+            <!-- HOME VIEW -->
+            <div v-if="currentView === 'home'" class="animate-slide-up">
+                <!-- Hero -->
+                <header class="text-center mb-16">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50/80 dark:bg-primary-900/30 border border-primary-100 dark:border-primary-800 text-primary-600 dark:text-primary-300 text-sm font-medium mb-6">
+                        <span class="relative flex h-2 w-2">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
+                        </span>
+                        27 Versions Iterated
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-primary-700 to-slate-900 dark:from-white dark:via-primary-300 dark:to-white">
+                        2025 年度工作汇报
+                    </h1>
+                    <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+                        聚焦核心业务场景，驱动持续创新。
+                    </p>
+                </header>
+
+                <!-- Filter Tabs -->
+                <div class="flex justify-center mb-12">
+                    <div class="glass-panel p-1.5 rounded-xl inline-flex gap-1">
+                        <button v-for="tab in filters" :key="tab" 
+                            @click="activeFilter = tab"
+                            :class="['px-6 py-2 rounded-lg text-sm font-medium transition-all duration-200', 
+                                activeFilter === tab 
+                                ? 'bg-white shadow-sm text-primary-600 dark:bg-slate-700 dark:text-white' 
+                                : 'text-slate-600 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-700/50']">
+                            {{ tab === 'all' ? '全部' : tab }}
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div v-for="(item, index) in filteredData" :key="item.id" 
+                        @click="openDetail(item)"
+                        class="glass-card rounded-2xl p-6 cursor-pointer group flex flex-col h-full"
+                        :style="{ animationDelay: index * 50 + 'ms' }">
+                        
+                        <div class="flex justify-between items-start mb-4">
+                            <span :class="['px-3 py-1 rounded-full text-xs font-semibold tracking-wide', getBadgeColor(item.type)]">
+                                {{ item.type }}
+                            </span>
+                            <span class="text-xs text-slate-400 font-mono group-hover:text-primary-500 transition-colors">View Details →</span>
+                        </div>
+                        
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                            {{ item.version }}
+                        </h3>
+                        
+                        <div class="h-px w-12 bg-primary-500/30 mb-4 group-hover:w-full transition-all duration-500"></div>
+                        
+                        <ul class="space-y-2 mb-4 flex-grow">
+                            <li v-for="(feat, i) in item.features.slice(0, 3)" :key="i" class="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
+                                <span class="text-primary-500 mt-1">•</span>
+                                <span class="line-clamp-2">{{ feat.text }}</span>
+                            </li>
+                            <li v-if="item.features.length > 3" class="text-xs text-slate-400 italic pl-4">
+                                + {{ item.features.length - 3 }} more features...
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DETAIL VIEW -->
+            <div v-else class="animate-fade-in">
+                <!-- Top Navigation / Version Switcher -->
+                <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <button @click="goHome" class="inline-flex items-center text-sm font-medium text-slate-500 hover:text-primary-600 transition-colors">
+                        ← Back to Overview
+                    </button>
+                    
+                    <!-- Version Tabs -->
+                    <div class="glass-panel p-1 rounded-lg overflow-x-auto flex gap-1 max-w-full no-scrollbar">
+                        <button v-for="v in sortedVersions" :key="v.id"
+                            @click="openDetail(v)"
+                            :class="['px-3 py-1.5 rounded-md text-xs font-medium whitespace-nowrap transition-colors',
+                                currentVersion.id === v.id
+                                ? 'bg-primary-500 text-white shadow-md'
+                                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700']">
+                            {{ v.version }}
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Detail Content -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Sidebar / Info -->
+                    <div class="lg:col-span-4 space-y-6">
+                        <div class="glass-panel p-8 rounded-2xl sticky top-24">
+                            <span :class="['px-3 py-1 rounded-full text-xs font-semibold tracking-wide mb-4 inline-block', getBadgeColor(currentVersion.type)]">
+                                {{ currentVersion.type }}
+                            </span>
+                            <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">{{ currentVersion.version }}</h1>
+                            <div class="h-1 w-20 bg-primary-500 rounded-full mb-6"></div>
+                            
+                            <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">Core Features</h3>
+                            <ul class="space-y-4">
+                                <li v-for="(feat, i) in currentVersion.features" :key="i" class="flex items-start gap-3">
+                                    <div class="w-6 h-6 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-600 flex items-center justify-center flex-shrink-0 text-xs font-bold mt-0.5">
+                                        {{ i + 1 }}
+                                    </div>
+                                    <span class="text-slate-700 dark:text-slate-300 leading-relaxed">{{ feat.text }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Main / Images -->
+                    <div class="lg:col-span-8 space-y-8">
+                        <div v-for="(feat, i) in currentVersion.features" :key="i" class="space-y-4">
+                            <div v-if="feat.images && feat.images.length > 0">
+                                <h3 class="text-lg font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2 mb-4">
+                                    <span class="w-1.5 h-6 bg-primary-500 rounded-full"></span>
+                                    {{ feat.text }}
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div v-for="(img, imgIdx) in feat.images" :key="imgIdx" 
+                                        class="glass-card rounded-xl overflow-hidden p-2 group">
+                                        <div class="rounded-lg overflow-hidden relative aspect-video bg-slate-100 dark:bg-slate-800">
+                                            <img :src="img" :alt="feat.text" loading="lazy"
+                                                class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105 cursor-zoom-in"
+                                                @click="openLightbox(img)">
+                                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors pointer-events-none"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div v-if="!hasImages" class="glass-panel p-12 rounded-2xl text-center text-slate-400">
+                            <p>No preview images available for this version.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Lightbox -->
+        <div v-if="lightboxImg" class="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4" @click="lightboxImg = null">
+            <img :src="lightboxImg" class="max-w-full max-h-full rounded-lg shadow-2xl animate-fade-in" alt="Preview">
+            <button class="absolute top-4 right-4 text-white hover:text-primary-400">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <footer class="border-t border-slate-200/50 dark:border-slate-700/50 py-8 text-center mt-auto">
+            <p class="text-slate-500 dark:text-slate-400 text-sm">
+                &copy; 2025 Work Report. Generated by Antigravity.
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        const { createApp, ref, computed } = Vue;
+
+        // Data derived from README.md
+        const rawData = [
+            {
+                id: 'crm-v1.2.2', version: 'CRM V1.2.2', type: 'CRM',
+                features: [
+                    { text: '我的审批--开票审批、回款审批新增打印', images: ['./workInfo/V1.2.2/image/1.2.2_1.png'] },
+                    { text: '安装单、维修单新增签名功能', images: ['./workInfo/V1.2.2/image/1.2.2_2.png'] }
+                ]
+            },
+            {
+                id: 'crm-v1.2.3', version: 'CRM V1.2.3', type: 'CRM',
+                features: [
+                    { text: '供应商付款', images: ['./workInfo/V1.2.3/image/1.2.3_1.png', './workInfo/V1.2.3/image/1.2.3_2.png', './workInfo/V1.2.3/image/1.2.3_3.png', './workInfo/V1.2.3/image/1.2.3_4.png'] },
+                    { text: '钉钉消息推送', images: ['./workInfo/V1.2.3/image/1.2.3_5.png'] },
+                    { text: '项目数据中心--数据清洗', images: ['./workInfo/V1.2.3/image/1.2.3_6.png', './workInfo/V1.2.3/image/1.2.3_7.png'] }
+                ]
+            },
+            {
+                id: 'ltc-v1.0.0', version: 'LTC V1.0.0', type: 'LTC',
+                features: [
+                    { text: '客户信息资产 G 端客户', images: ['./workInfo/LTC_V1.0/image/1.0.0_1.png'] }
+                ]
+            },
+            {
+                id: 'ltc-v1.0.1', version: 'LTC V1.0.1', type: 'LTC',
+                features: [
+                    { text: '客户信息资产全国业务地图、客户业务地图', images: ['./workInfo/LTC_V1.0.1/image/1.0.1_1.png', './workInfo/LTC_V1.0.1/image/1.0.1_2.png', './workInfo/LTC_V1.0.1/image/1.0.1_3.png', './workInfo/LTC_V1.0.1/image/1.0.1_4.png'] }
+                ]
+            },
+            {
+                id: 'ltc-v1.1.2', version: 'LTC V1.1.2', type: 'LTC',
+                features: [
+                    { text: 'APP--新增备货交付模块', images: ['./workInfo/LTC_V1.1.2/image/1.1.2_1.png', './workInfo/LTC_V1.1.2/image/1.1.2_2.png', './workInfo/LTC_V1.1.2/image/1.1.2_3.png'] }
+                ]
+            },
+            {
+                id: 'ltc-v1.2.2', version: 'LTC V1.2.2', type: 'LTC',
+                features: [
+                    { text: '跟进实绩', images: ['./workInfo/LTC_V1.2.2/image/1.2.2_1.png'] },
+                    { text: '行动计划统计', images: ['./workInfo/LTC_V1.2.2/image/1.2.2_2.png'] },
+                    { text: '商机阶段统计', images: ['./workInfo/LTC_V1.2.2/image/1.2.2_3.png'] },
+                    { text: '意向级别统计', images: ['./workInfo/LTC_V1.2.2/image/1.2.2_4.png'] }
+                ]
+            },
+            {
+                id: 'ltc-v1.2.3', version: 'LTC V1.2.3', type: 'LTC',
+                features: [
+                    { text: '工程管理维护外勤地址、地图打点', images: ['./workInfo/LTC_V1.2.3/image/1.2.3(2)_1.png', './workInfo/LTC_V1.2.3/image/1.2.3(2)_2.png'] },
+                    { text: '我的审批--工程地址更新审批', images: ['./workInfo/LTC_V1.2.3/image/1.2.3(3)_3.png'] }
+                ]
+            },
+            {
+                id: 'ltc-v1.2.4', version: 'LTC V1.2.4', type: 'LTC',
+                features: [
+                    { text: '营收统计', images: ['./workInfo/LTC_V1.2.4/image/1.2.4_1.png'] },
+                    { text: '供应商付款统计', images: ['./workInfo/LTC_V1.2.4/image/1.2.4_2.png'] },
+                    { text: 'app 列表多条件筛选组件', images: ['./workInfo/LTC_V1.2.4/image/1.2.4_3.png'] }
+                ]
+            },
+            {
+                id: 'ltc-v2.0.0', version: 'LTC V2.0.0', type: 'LTC',
+                features: [
+                    { text: '企业数据：企业详情改造，组织架构、组织架构增删改', images: ['./workInfo/LTC_V2.0.0/image/2.0.0_1.png', './workInfo/LTC_V2.0.0/image/2.0.0_2.png'] },
+                    { text: '创建联系人：组织架构选择组件', images: [] },
+                    { text: 'web 端--企业库', images: ['./workInfo/LTC_V2.0.0/image/2.0.0_4.png', './workInfo/LTC_V2.0.0/image/2.0.0_5.png', './workInfo/LTC_V2.0.0/image/2.0.0_6.png'] },
+                    { text: '服务商管理', images: ['./workInfo/LTC_V2.0.0/image/2.0.0_7.png', './workInfo/LTC_V2.0.0/image/2.0.0_8.png'] },
+                    { text: '交付单位管理', images: ['./workInfo/LTC_V2.0.0/image/2.0.0_9.png'] }
+                ]
+            },
+            {
+                id: 'ltc-v2.2.0', version: 'LTC V2.2.0', type: 'LTC',
+                features: [
+                    { text: 'app--微信记录', images: ['./workInfo/LTC_V2.2.0/image/2.2.0_1.png', './workInfo/LTC_V2.2.0/image/2.2.0_2.png', './workInfo/LTC_V2.2.0/image/2.2.0_3.png', './workInfo/LTC_V2.2.0/image/2.2.0_4.png', './workInfo/LTC_V2.2.0/image/2.2.0_5.png'] }
+                ]
+            },
+            {
+                id: 'ltc-v2.3.0', version: 'LTC V2.3.0', type: 'LTC',
+                features: [
+                    { text: 'app--新增行动计划、时间选择组件优化', images: ['./workInfo/LTC_V2.3.0/image/2.3.0_1.png'] },
+                    { text: 'web 行动计划', images: ['./workInfo/LTC_V2.3.0/image/2.3.0_2.png', './workInfo/LTC_V2.3.0/image/2.3.0_3.png', './workInfo/LTC_V2.3.0/image/2.3.0_4.png', './workInfo/LTC_V2.3.0/image/2.3.0_5.png'] }
+                ]
+            },
+            {
+                id: 'ltc-v2.5.0', version: 'LTC V2.5.0', type: 'LTC',
+                features: [
+                    { text: 'web 新增我的待办', images: ['./workInfo/LTC_V2.5.0/image/2.5.0_1.png'] }
+                ]
+            },
+            {
+                id: 'ltc-v2.6.1', version: 'LTC V2.6.1', type: 'LTC',
+                features: [
+                    { text: 'app 端单设备登录，登录要分 h5 浏览器，钉钉环境，app 登录等', images: ['./workInfo/LTC_V2.6.1/image/2.6.1_1.png'] }
+                ]
+            },
+            {
+                id: 'ltc-v2.8.0', version: 'LTC V2.8.0', type: 'LTC',
+                features: [
+                    { text: 'web 多页签改造', images: ['./workInfo/LTC_V2.8.0/image/2.8.0_1.png'] }
+                ]
+            },
+            {
+                id: 'ltc-v2.8.1', version: 'LTC V2.8.1', type: 'LTC',
+                features: [
+                    { text: 'app 调查问卷', images: ['./workInfo/LTC_V2.8.1/image/2.8.1_1.png', './workInfo/LTC_V2.8.1/image/2.8.1_2.png'] }
+                ]
+            }
+        ];
+
+        createApp({
+            setup() {
+                const currentView = ref('home');
+                const currentVersion = ref(null);
+                const activeFilter = ref('all');
+                const filters = ['all', 'LTC', 'CRM'];
+                const isDark = ref(false);
+                const lightboxImg = ref(null);
+
+                // Initialize Theme
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    isDark.value = true;
+                    document.documentElement.classList.add('dark');
+                }
+
+                const toggleTheme = () => {
+                    isDark.value = !isDark.value;
+                    if (isDark.value) {
+                        document.documentElement.classList.add('dark');
+                    } else {
+                        document.documentElement.classList.remove('dark');
+                    }
+                };
+
+                const filteredData = computed(() => {
+                    if (activeFilter.value === 'all') return rawData;
+                    return rawData.filter(item => item.type === activeFilter.value);
+                });
+
+                const sortedVersions = computed(() => {
+                    // Sort by ID or Version Number if needed, currently just keeping array order
+                    return rawData;
+                });
+
+                const hasImages = computed(() => {
+                    if (!currentVersion.value) return false;
+                    return currentVersion.value.features.some(f => f.images && f.images.length > 0);
+                });
+
+                const openDetail = (item) => {
+                    currentVersion.value = item;
+                    currentView.value = 'detail';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                };
+
+                const goHome = () => {
+                    currentView.value = 'home';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                };
+
+                const openLightbox = (img) => {
+                    lightboxImg.value = img;
+                };
+
+                const getBadgeColor = (type) => {
+                    if (type === 'LTC') return 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300';
+                    if (type === 'CRM') return 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300';
+                    return 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300';
+                };
+
+                return {
+                    currentView,
+                    currentVersion,
+                    activeFilter,
+                    filters,
+                    filteredData,
+                    sortedVersions,
+                    isDark,
+                    toggleTheme,
+                    openDetail,
+                    goHome,
+                    getBadgeColor,
+                    hasImages,
+                    lightboxImg,
+                    openLightbox
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
