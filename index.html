@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2025 年度工作汇报 | Product Iteration Report</title>
+    <title>2025 Annual Report | Playful Edition</title>
     <meta name="description" content="2025 Year-End Summary of Product Iterations.">
     
     <!-- Tailwind CSS -->
@@ -11,11 +11,11 @@
     
     <!-- Vue 3 -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
+    
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Tailwind Config -->
     <script>
@@ -24,34 +24,46 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'Noto Sans SC', 'sans-serif'],
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+                        heading: ['"Outfit"', 'system-ui', 'sans-serif'],
                     },
                     colors: {
-                        primary: {
-                            50: '#eef2ff',
-                            100: '#e0e7ff',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                        },
+                        background: '#FFFDF5',
+                        foreground: '#1E293B',
+                        muted: '#F1F5F9',
+                        mutedForeground: '#64748B',
+                        accent: '#8B5CF6', // Vivid Violet
+                        secondary: '#F472B6', // Hot Pink
+                        tertiary: '#FBBF24', // Amber
+                        quaternary: '#34D399', // Emerald
+                        border: '#1E293B',
+                    },
+                    boxShadow: {
+                        'pop-sm': '2px 2px 0px 0px #1E293B',
+                        'pop': '4px 4px 0px 0px #1E293B',
+                        'pop-lg': '8px 8px 0px 0px #1E293B',
+                        'pop-hover': '6px 6px 0px 0px #1E293B',
+                        'pop-pink': '8px 8px 0px 0px #F472B6',
+                        'pop-violet': '8px 8px 0px 0px #8B5CF6',
+                        'pop-amber': '8px 8px 0px 0px #FBBF24',
                     },
                     animation: {
-                        'float': 'float 8s ease-in-out infinite',
-                        'fade-in': 'fadeIn 0.5s ease-out forwards',
-                        'slide-up': 'slideUp 0.5s ease-out forwards',
+                        'wiggle': 'wiggle 0.3s ease-in-out infinite',
+                        'pop-in': 'popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+                        'float': 'float 6s ease-in-out infinite',
                     },
                     keyframes: {
+                        wiggle: {
+                            '0%, 100%': { transform: 'rotate(-1deg)' },
+                            '50%': { transform: 'rotate(1deg)' },
+                        },
+                        popIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.8)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        },
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-15px)' },
-                        },
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        slideUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
                         }
                     }
                 }
@@ -60,250 +72,320 @@
     </script>
 
     <style>
-        /* Glassmorphism Utilities */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
-        }
-        
-        .dark .glass-panel {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        body {
+            background-color: #FFFDF5;
+            background-image: radial-gradient(#E2E8F0 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
         }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .dark body {
+            background-color: #0F172A;
+            background-image: radial-gradient(#1E293B 1.5px, transparent 1.5px);
         }
 
-        .dark .glass-card {
-            background: rgba(30, 41, 59, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        /* Candy Button */
+        .btn-candy {
+            @apply relative px-6 py-3 rounded-full font-bold transition-all duration-300 border-2 border-foreground shadow-pop active:translate-x-[2px] active:translate-y-[2px] active:shadow-pop-sm hover:-translate-x-[2px] hover:-translate-y-[2px] hover:shadow-pop-hover flex items-center gap-2;
         }
 
-        .glass-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.7);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            border-color: rgba(99, 102, 241, 0.4);
+        /* Sticker Card */
+        .card-sticker {
+            @apply bg-white dark:bg-slate-800 border-2 border-foreground rounded-2xl p-6 transition-all duration-300 shadow-pop hover:shadow-pop-lg hover:-translate-y-1 hover:rotate-1;
         }
 
-        .dark .glass-card:hover {
-            background: rgba(30, 41, 59, 0.8);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            border-color: rgba(99, 102, 241, 0.5);
+        /* Blob Radius */
+        .blob-radius {
+            border-radius: 24px 24px 24px 4px;
         }
 
-        /* Scrollbar */
-        ::-webkit-scrollbar {
+        /* Custom Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
             width: 8px;
-            height: 8px;
         }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(99, 102, 241, 0.3);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(99, 102, 241, 0.5);
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            @apply bg-accent border-2 border-foreground rounded-full;
         }
 
-        /* Background Shapes */
-        .bg-shape {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(100px);
-            z-index: -1;
-            opacity: 0.5;
+        /* Slide Transitions */
+        .slide-fade-enter-active,
+        .slide-fade-leave-active {
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        
-        /* Image Zoom */
-        .img-zoom-container {
-            overflow: hidden;
-        }
-        .img-zoom {
-            transition: transform 0.5s ease;
-        }
-        .img-zoom:hover {
-            transform: scale(1.02);
+        .slide-fade-enter-from { opacity: 0; transform: scale(0.9) translateY(20px); }
+        .slide-fade-leave-to { opacity: 0; transform: scale(1.1) translateY(-20px); }
+
+        /* Squiggle Divider */
+        .squiggle {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 Q12.5 0 25 10 T50 10 T75 10 T100 10' fill='none' stroke='%238B5CF6' stroke-width='4'/%3E%3C/svg%3E");
+            height: 20px;
+            width: 100%;
+            background-repeat: repeat-x;
         }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-300">
+<body class="text-foreground dark:text-slate-100 min-h-screen transition-colors duration-500">
 
-    <div id="app" class="min-h-screen flex flex-col">
+    <div id="app" class="min-h-screen flex flex-col relative overflow-hidden">
         
-        <!-- Background Shapes -->
-        <div class="bg-shape bg-purple-400/30 dark:bg-purple-900/20 w-[600px] h-[600px] top-[-100px] left-[-100px] animate-float"></div>
-        <div class="bg-shape bg-indigo-400/30 dark:bg-indigo-900/20 w-[500px] h-[500px] bottom-0 right-0 animate-float" style="animation-delay: -3s;"></div>
-        <div class="bg-shape bg-blue-400/20 dark:bg-blue-900/10 w-96 h-96 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-float" style="animation-delay: -5s;"></div>
+        <!-- Decorative Shapes -->
+        <div class="fixed top-20 -left-10 w-32 h-32 bg-tertiary rounded-full opacity-20 animate-float pointer-events-none"></div>
+        <div class="fixed bottom-20 -right-10 w-40 h-40 bg-secondary rounded-lg rotate-12 opacity-20 animate-float pointer-events-none" style="animation-delay: -2s"></div>
+        <div class="fixed top-1/2 left-1/4 w-8 h-8 bg-quaternary rounded-full opacity-20 animate-float pointer-events-none" style="animation-delay: -4s"></div>
 
         <!-- Navbar -->
-        <nav class="fixed top-0 w-full z-50 px-4 sm:px-6 lg:px-8 pt-4">
-            <div class="max-w-7xl mx-auto glass-panel rounded-2xl px-6 h-16 flex justify-between items-center">
-                <div class="flex items-center gap-3 cursor-pointer" @click="goHome">
-                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center text-white font-bold shadow-lg shadow-primary-500/30">
+        <nav class="fixed top-0 w-full z-50 px-6 pt-6">
+            <div class="max-w-7xl mx-auto bg-white dark:bg-slate-800 border-2 border-foreground rounded-full px-8 h-20 flex justify-between items-center shadow-pop">
+                <div class="flex items-center gap-4 cursor-pointer group" @click="goHome">
+                    <div class="w-12 h-12 rounded-xl bg-accent border-2 border-foreground flex items-center justify-center text-white font-heading font-extrabold text-2xl shadow-pop-sm group-hover:rotate-6 transition-transform">
                         R
                     </div>
-                    <span class="font-bold text-lg tracking-tight">2025 Report</span>
+                    <div class="flex flex-col">
+                        <span class="font-heading font-extrabold text-xl tracking-tight leading-none">2025 REPORT</span>
+                        <span class="text-[10px] uppercase tracking-widest text-accent font-bold">Playful Edition</span>
+                    </div>
                 </div>
                 
-                <div class="flex items-center gap-4">
-                    <button @click="toggleTheme" class="p-2 rounded-full hover:bg-slate-200/50 dark:hover:bg-slate-700/50 transition-colors">
-                        <span v-if="isDark">🌞</span>
-                        <span v-else>🌙</span>
+                <div class="flex items-center gap-6">
+                    <button @click="toggleTheme" class="w-12 h-12 rounded-full border-2 border-foreground flex items-center justify-center bg-tertiary shadow-pop-sm hover:translate-y-[-2px] active:translate-y-[1px] transition-all">
+                        <span v-if="isDark" class="text-xl">☀️</span>
+                        <span v-else class="text-xl">🌙</span>
                     </button>
                 </div>
             </div>
         </nav>
 
         <!-- Main Content Area -->
-        <main class="flex-grow pt-28 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+        <main class="flex-grow pt-32 pb-12 px-6 max-w-7xl mx-auto w-full relative z-10 h-full flex flex-col">
             
             <!-- HOME VIEW -->
-            <div v-if="currentView === 'home'" class="animate-slide-up">
-                <!-- Hero -->
-                <header class="text-center mb-16">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-50/80 dark:bg-primary-900/30 border border-primary-100 dark:border-primary-800 text-primary-600 dark:text-primary-300 text-sm font-medium mb-6">
-                        <span class="relative flex h-2 w-2">
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
-                          <span class="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
-                        </span>
-                        27 Versions Iterated
+            <div v-if="currentView === 'home'" class="animate-pop-in pb-20">
+                <!-- Hero Section: Text Left, Visual Right -->
+                <header class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-32 relative">
+                    <!-- Left: Text Content -->
+                    <div class="relative z-10 text-left">
+                        <div class="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-white dark:bg-slate-800 border-2 border-foreground shadow-pop mb-8 transform -rotate-2 hover:rotate-0 transition-transform">
+                            <span class="w-3 h-3 rounded-full bg-accent animate-pulse"></span>
+                            <span class="text-sm font-extrabold tracking-widest uppercase">27 Versions Iterated</span>
+                        </div>
+                        
+                        <h1 class="text-6xl md:text-8xl font-heading font-extrabold tracking-tighter mb-8 leading-[0.9]">
+                            ANNUAL <br>
+                            <span class="relative inline-block">
+                                <span class="relative z-10 text-accent">SUMMARY</span>
+                                <svg class="absolute -bottom-2 left-0 w-full h-4 text-tertiary -z-10" viewBox="0 0 100 10" preserveAspectRatio="none">
+                                    <path d="M0 5 Q 50 10 100 5" stroke="currentColor" stroke-width="8" fill="none" />
+                                </svg>
+                            </span>
+                        </h1>
+                        
+                        <p class="text-xl md:text-2xl text-mutedForeground max-w-lg font-medium leading-relaxed mb-10">
+                            Optimism, clarity, and tactile fun. <br>
+                            <span class="text-secondary font-extrabold uppercase tracking-tighter bg-secondary/10 px-2">Excellence in Motion</span>
+                        </p>
+
+                        <button @click="scrollToGrid" class="btn-candy bg-tertiary text-foreground text-lg px-8 py-4">
+                            EXPLORE REPORT
+                            <span class="w-8 h-8 rounded-full bg-white flex items-center justify-center border-2 border-foreground">↓</span>
+                        </button>
                     </div>
-                    <h1 class="text-4xl md:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-primary-700 to-slate-900 dark:from-white dark:via-primary-300 dark:to-white">
-                        2025 年度工作汇报
-                    </h1>
-                    <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                        聚焦核心业务场景，驱动持续创新。
-                    </p>
+
+                    <!-- Right: Visual Composition -->
+                    <div class="relative hidden lg:block h-[500px]">
+                        <!-- Massive Yellow Circle -->
+                        <div class="absolute top-10 right-10 w-96 h-96 bg-tertiary rounded-full border-2 border-foreground shadow-pop-lg opacity-20 animate-float"></div>
+                        
+                        <!-- Decorative Card -->
+                        <div class="absolute top-20 right-20 w-80 h-96 bg-white dark:bg-slate-800 border-2 border-foreground rounded-3xl shadow-pop-violet rotate-6 hover:rotate-3 transition-transform duration-500 flex flex-col p-6 items-center justify-center gap-4 z-10">
+                            <div class="w-24 h-24 rounded-full bg-accent border-2 border-foreground flex items-center justify-center text-5xl shadow-pop-sm">
+                                🚀
+                            </div>
+                            <div class="text-center">
+                                <div class="font-heading font-extrabold text-2xl mb-1">2025</div>
+                                <div class="font-bold text-mutedForeground uppercase tracking-widest text-sm">Product Report</div>
+                            </div>
+                            <div class="w-full h-2 bg-muted rounded-full overflow-hidden border-2 border-foreground mt-4">
+                                <div class="w-3/4 h-full bg-secondary"></div>
+                            </div>
+                            <div class="flex gap-2 mt-2">
+                                <div class="w-3 h-3 rounded-full bg-quaternary border-2 border-foreground"></div>
+                                <div class="w-3 h-3 rounded-full bg-tertiary border-2 border-foreground"></div>
+                                <div class="w-3 h-3 rounded-full bg-secondary border-2 border-foreground"></div>
+                            </div>
+                        </div>
+
+                        <!-- Floating Elements -->
+                        <div class="absolute bottom-20 right-80 w-16 h-16 bg-quaternary border-2 border-foreground rounded-lg shadow-pop rotate-12 animate-float" style="animation-delay: -2s"></div>
+                        <div class="absolute top-40 right-10 w-12 h-12 bg-secondary border-2 border-foreground rounded-full shadow-pop -rotate-12 animate-float" style="animation-delay: -1s"></div>
+                        
+                        <!-- Dotted Pattern -->
+                        <div class="absolute inset-0 -z-10 opacity-30" style="background-image: radial-gradient(#1E293B 2px, transparent 2px); background-size: 20px 20px;"></div>
+                    </div>
                 </header>
 
                 <!-- Filter Tabs -->
-                <div class="flex justify-center mb-12">
-                    <div class="glass-panel p-1.5 rounded-xl inline-flex gap-1">
+                <div id="grid-section" class="flex justify-center mb-16">
+                    <div class="bg-white dark:bg-slate-800 p-3 rounded-2xl border-2 border-foreground inline-flex gap-4 shadow-pop relative">
+                        <!-- Decorative squiggle on top -->
+                        <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-24 h-4 bg-no-repeat bg-contain opacity-50" style="background-image: url(&quot;data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 Q12.5 0 25 10 T50 10 T75 10 T100 10' fill='none' stroke='%23F472B6' stroke-width='4'/%3E%3C/svg%3E&quot;)"></div>
+                        
                         <button v-for="tab in filters" :key="tab" 
                             @click="activeFilter = tab"
-                            :class="['px-6 py-2 rounded-lg text-sm font-medium transition-all duration-200', 
+                            :class="['px-8 py-3 rounded-xl text-sm font-extrabold tracking-widest transition-all duration-300 border-2', 
                                 activeFilter === tab 
-                                ? 'bg-white shadow-sm text-primary-600 dark:bg-slate-700 dark:text-white' 
-                                : 'text-slate-600 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-700/50']">
-                            {{ tab === 'all' ? '全部' : tab }}
+                                ? 'bg-foreground text-white border-foreground shadow-pop-sm -translate-y-1 rotate-1' 
+                                : 'bg-muted dark:bg-slate-700 text-foreground border-transparent hover:border-foreground hover:-rotate-1']">
+                            {{ tab.toUpperCase() }}
                         </button>
                     </div>
                 </div>
 
                 <!-- Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 px-4">
                     <div v-for="(item, index) in filteredData" :key="item.id" 
                         @click="openDetail(item)"
-                        class="glass-card rounded-2xl p-6 cursor-pointer group flex flex-col h-full"
+                        class="card-sticker group flex flex-col h-full relative overflow-visible bg-white dark:bg-slate-800"
+                        :class="index % 3 === 0 ? 'hover:shadow-pop-pink' : (index % 3 === 1 ? 'hover:shadow-pop-violet' : 'hover:shadow-pop-amber')"
                         :style="{ animationDelay: index * 50 + 'ms' }">
                         
-                        <div class="flex justify-between items-start mb-4">
-                            <span :class="['px-3 py-1 rounded-full text-xs font-semibold tracking-wide', getBadgeColor(item.type)]">
+                        <!-- Dashed Line Connector (Visual only, simplified) -->
+                        <div v-if="index < filteredData.length - 1 && (index + 1) % 3 !== 0" class="hidden lg:block absolute top-1/2 -right-12 w-14 h-1 border-t-4 border-dashed border-foreground/20 -z-10"></div>
+
+                        <!-- Icon Badge -->
+                        <div class="absolute -top-6 left-6 w-12 h-12 rounded-full border-2 border-foreground flex items-center justify-center shadow-pop-sm transition-transform group-hover:-rotate-12 z-10"
+                             :class="getBadgeBg(item.type)">
+                            <span class="text-xl font-heading font-bold text-white">{{ item.type[0] }}</span>
+                        </div>
+
+                        <div class="flex justify-end items-start mb-6 mt-2">
+                            <span class="text-xs font-bold text-mutedForeground uppercase tracking-widest bg-muted px-2 py-1 rounded border-2 border-transparent group-hover:border-foreground transition-colors">
                                 {{ item.type }}
                             </span>
-                            <span class="text-xs text-slate-400 font-mono group-hover:text-primary-500 transition-colors">View Details →</span>
                         </div>
                         
-                        <h3 class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                        <h3 class="text-2xl font-heading font-extrabold text-foreground dark:text-white mb-4 group-hover:text-accent transition-colors leading-tight">
                             {{ item.version }}
                         </h3>
                         
-                        <div class="h-px w-12 bg-primary-500/30 mb-4 group-hover:w-full transition-all duration-500"></div>
+                        <div class="w-full h-4 bg-repeat-x mb-6 opacity-20" style="background-image: radial-gradient(circle, #1E293B 2px, transparent 2.5px); background-size: 8px 8px;"></div>
                         
-                        <ul class="space-y-2 mb-4 flex-grow">
-                            <li v-for="(feat, i) in item.features.slice(0, 3)" :key="i" class="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
-                                <span class="text-primary-500 mt-1">•</span>
+                        <ul class="space-y-3 mb-6 flex-grow">
+                            <li v-for="(feat, i) in item.features.slice(0, 3)" :key="i" class="flex items-start gap-3 text-sm font-medium text-slate-600 dark:text-slate-300">
+                                <div class="w-1.5 h-1.5 rounded-full bg-foreground mt-2 flex-shrink-0"></div>
                                 <span class="line-clamp-2">{{ feat.text }}</span>
                             </li>
-                            <li v-if="item.features.length > 3" class="text-xs text-slate-400 italic pl-4">
-                                + {{ item.features.length - 3 }} more features...
-                            </li>
                         </ul>
+
+                        <button class="btn-candy bg-white dark:bg-slate-700 w-full justify-center text-xs group-hover:bg-foreground group-hover:text-white group-hover:border-foreground">
+                            VIEW DETAILS
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <!-- DETAIL VIEW -->
-            <div v-else class="animate-fade-in">
-                <!-- Top Navigation / Version Switcher -->
-                <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <button @click="goHome" class="inline-flex items-center text-sm font-medium text-slate-500 hover:text-primary-600 transition-colors">
-                        ← Back to Overview
+            <!-- DETAIL VIEW (Folder/File Style) -->
+            <div v-else class="animate-pop-in h-[calc(100vh-8rem)] flex flex-col max-w-6xl mx-auto w-full">
+                <!-- Top Navigation -->
+                <div class="flex-shrink-0 px-8 py-4 flex justify-between items-center z-20">
+                    <button @click="goHome" class="btn-candy bg-white hover:bg-tertiary py-2 px-6 text-xs shadow-pop-sm">
+                        <span>←</span> BACK TO OVERVIEW
                     </button>
                     
-                    <!-- Version Tabs -->
-                    <div class="glass-panel p-1 rounded-lg overflow-x-auto flex gap-1 max-w-full no-scrollbar">
-                        <button v-for="v in sortedVersions" :key="v.id"
-                            @click="openDetail(v)"
-                            :class="['px-3 py-1.5 rounded-md text-xs font-medium whitespace-nowrap transition-colors',
-                                currentVersion.id === v.id
-                                ? 'bg-primary-500 text-white shadow-md'
-                                : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700']">
-                            {{ v.version }}
-                        </button>
+                    <div class="flex items-center gap-4">
+                        <span class="font-heading font-extrabold text-foreground bg-white px-4 py-2 rounded-lg border-2 border-foreground shadow-pop-sm">
+                            {{ currentVersionIndex + 1 }} <span class="text-mutedForeground mx-1">/</span> {{ sortedVersions.length }}
+                        </span>
                     </div>
                 </div>
 
-                <!-- Detail Content -->
-                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                    <!-- Sidebar / Info -->
-                    <div class="lg:col-span-4 space-y-6">
-                        <div class="glass-panel p-8 rounded-2xl sticky top-24">
-                            <span :class="['px-3 py-1 rounded-full text-xs font-semibold tracking-wide mb-4 inline-block', getBadgeColor(currentVersion.type)]">
-                                {{ currentVersion.type }}
-                            </span>
-                            <h1 class="text-3xl font-bold text-slate-900 dark:text-white mb-2">{{ currentVersion.version }}</h1>
-                            <div class="h-1 w-20 bg-primary-500 rounded-full mb-6"></div>
-                            
-                            <h3 class="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">Core Features</h3>
-                            <ul class="space-y-4">
-                                <li v-for="(feat, i) in currentVersion.features" :key="i" class="flex items-start gap-3">
-                                    <div class="w-6 h-6 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-600 flex items-center justify-center flex-shrink-0 text-xs font-bold mt-0.5">
-                                        {{ i + 1 }}
-                                    </div>
-                                    <span class="text-slate-700 dark:text-slate-300 leading-relaxed">{{ feat.text }}</span>
-                                </li>
-                            </ul>
+                <div class="flex flex-grow overflow-hidden rounded-3xl border-2 border-foreground bg-white dark:bg-slate-900 shadow-pop-lg mx-4 mb-8">
+                    <!-- Sidebar Navigation (Tabs Style) -->
+                    <div class="w-64 flex-shrink-0 border-r-2 border-foreground bg-muted dark:bg-slate-800 flex flex-col">
+                        <div class="p-4 overflow-y-auto custom-scrollbar flex-grow space-y-2">
+                            <div class="text-xs font-extrabold text-mutedForeground uppercase tracking-widest mb-4 px-2">Versions</div>
+                            <button v-for="(v, idx) in sortedVersions" :key="v.id"
+                                @click="switchSlide(idx)"
+                                :id="'tab-' + v.id"
+                                :class="['w-full text-left px-4 py-3 rounded-xl text-sm font-bold transition-all duration-200 flex items-center justify-between group border-2 relative overflow-hidden',
+                                    currentVersionIndex === idx
+                                    ? 'bg-white text-foreground border-foreground shadow-pop-sm translate-x-2'
+                                    : 'bg-transparent border-transparent text-mutedForeground hover:bg-white/50 hover:border-foreground/20']">
+                                <span class="relative z-10">{{ v.version }}</span>
+                                <div v-if="currentVersionIndex === idx" class="absolute left-0 top-0 bottom-0 w-1 bg-accent"></div>
+                            </button>
                         </div>
                     </div>
 
-                    <!-- Main / Images -->
-                    <div class="lg:col-span-8 space-y-8">
-                        <div v-for="(feat, i) in currentVersion.features" :key="i" class="space-y-4">
-                            <div v-if="feat.images && feat.images.length > 0">
-                                <h3 class="text-lg font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2 mb-4">
-                                    <span class="w-1.5 h-6 bg-primary-500 rounded-full"></span>
-                                    {{ feat.text }}
-                                </h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div v-for="(img, imgIdx) in feat.images" :key="imgIdx" 
-                                        class="glass-card rounded-xl overflow-hidden p-2 group">
-                                        <div class="rounded-lg overflow-hidden relative aspect-video bg-slate-100 dark:bg-slate-800">
-                                            <img :src="img" :alt="feat.text" loading="lazy"
-                                                class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105 cursor-zoom-in"
-                                                @click="openLightbox(img)">
-                                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors pointer-events-none"></div>
+                    <!-- Main Content Slide Area -->
+                    <div class="flex-grow relative bg-white dark:bg-slate-900" id="slide-container">
+                        <Transition name="slide-fade" mode="out-in">
+                            <div :key="currentVersion.id" class="absolute inset-0 overflow-y-auto custom-scrollbar p-8 md:p-12 pb-32" id="slide-content">
+                                
+                                <div class="max-w-4xl mx-auto">
+                                    <!-- Slide Header -->
+                                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 border-b-4 border-foreground/10 pb-8">
+                                        <div>
+                                            <div class="flex items-center gap-3 mb-4">
+                                                <span :class="['px-4 py-1 rounded-full text-xs font-extrabold tracking-widest uppercase border-2 border-foreground', getBadgeStyle(currentVersion.type)]">
+                                                    {{ currentVersion.type }}
+                                                </span>
+                                                <span class="text-xs font-bold text-mutedForeground uppercase tracking-widest">Release Note</span>
+                                            </div>
+                                            <h2 class="text-5xl md:text-6xl font-heading font-extrabold text-foreground dark:text-white leading-none">
+                                                {{ currentVersion.version }}
+                                            </h2>
+                                        </div>
+                                        
+                                        <!-- Decorative Shapes -->
+                                        <div class="flex gap-2">
+                                            <div class="w-8 h-8 bg-secondary rounded-full border-2 border-foreground"></div>
+                                            <div class="w-8 h-8 bg-tertiary rounded-none border-2 border-foreground transform rotate-12"></div>
+                                            <div class="w-8 h-8 bg-quaternary rounded-full border-2 border-foreground"></div>
                                         </div>
                                     </div>
+
+                                    <!-- Features List -->
+                                    <div class="mb-16">
+                                        <h3 class="text-lg font-heading font-extrabold text-foreground mb-6 flex items-center gap-2">
+                                            <span class="text-2xl">✨</span> WHAT'S NEW
+                                        </h3>
+                                        <ul class="grid grid-cols-1 gap-4">
+                                            <li v-for="(feat, i) in currentVersion.features" :key="i" class="flex items-start gap-4 p-5 rounded-2xl bg-muted/30 border-2 border-transparent hover:border-foreground hover:bg-white transition-all group">
+                                                <div class="w-8 h-8 rounded-lg bg-accent text-white border-2 border-foreground flex items-center justify-center flex-shrink-0 font-bold shadow-pop-sm group-hover:rotate-6 transition-transform">
+                                                    {{ i + 1 }}
+                                                </div>
+                                                <span class="text-lg font-medium leading-relaxed pt-0.5">{{ feat.text }}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Slide Images -->
+                                    <div class="space-y-16">
+                                        <div v-for="(feat, i) in currentVersion.features" :key="i">
+                                            <div v-if="feat.images && feat.images.length > 0" class="space-y-6">
+                                                <div class="flex items-center gap-4">
+                                                    <div class="w-3 h-3 rounded-full bg-foreground"></div>
+                                                    <h3 class="text-sm font-extrabold text-mutedForeground tracking-widest uppercase">
+                                                        PREVIEW: {{ feat.text }}
+                                                    </h3>
+                                                </div>
+                                                
+                                                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                                    <div v-for="(img, imgIdx) in feat.images" :key="imgIdx" 
+                                                        class="bg-white p-2 border-2 border-foreground rounded-2xl shadow-pop hover:shadow-pop-lg hover:-translate-y-1 transition-all cursor-zoom-in"
+                                                        @click="openLightbox(img)">
+                                                        <div class="rounded-xl overflow-hidden aspect-video border-2 border-foreground/10">
+                                                            <img :src="img" :alt="feat.text" loading="lazy" class="w-full h-full object-cover">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="h-24"></div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div v-if="!hasImages" class="glass-panel p-12 rounded-2xl text-center text-slate-400">
-                            <p>No preview images available for this version.</p>
-                        </div>
+                        </Transition>
                     </div>
                 </div>
             </div>
@@ -311,24 +393,30 @@
         </main>
 
         <!-- Lightbox -->
-        <div v-if="lightboxImg" class="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4" @click="lightboxImg = null">
-            <img :src="lightboxImg" class="max-w-full max-h-full rounded-lg shadow-2xl animate-fade-in" alt="Preview">
-            <button class="absolute top-4 right-4 text-white hover:text-primary-400">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
+        <div v-if="lightboxImg" class="fixed inset-0 z-[100] bg-foreground/90 backdrop-blur-sm flex items-center justify-center p-8" @click="lightboxImg = null">
+            <div class="relative max-w-6xl max-h-full bg-white p-2 rounded-3xl border-4 border-foreground shadow-pop-lg animate-pop-in">
+                <img :src="lightboxImg" class="max-w-full max-h-[85vh] rounded-2xl border-2 border-foreground/10" alt="Preview">
+                <button class="absolute -top-6 -right-6 w-14 h-14 rounded-full bg-secondary border-4 border-foreground flex items-center justify-center text-white shadow-pop hover:rotate-90 transition-transform z-50">
+                    <span class="text-3xl font-bold">×</span>
+                </button>
+            </div>
         </div>
 
-        <footer class="border-t border-slate-200/50 dark:border-slate-700/50 py-8 text-center mt-auto">
-            <p class="text-slate-500 dark:text-slate-400 text-sm">
-                &copy; 2025 Work Report. Generated by Antigravity.
+        <footer v-if="currentView === 'home'" class="py-12 text-center mt-auto relative z-10 border-t-2 border-foreground bg-white">
+            <div class="flex justify-center gap-4 mb-6">
+                <div class="w-4 h-4 rounded-full bg-accent border-2 border-foreground"></div>
+                <div class="w-4 h-4 rounded-full bg-secondary border-2 border-foreground"></div>
+                <div class="w-4 h-4 rounded-full bg-tertiary border-2 border-foreground"></div>
+            </div>
+            <p class="text-foreground font-bold text-xs tracking-[0.3em] uppercase">
+                &copy; 2025 WORK REPORT • PLAYFUL GEOMETRIC
             </p>
         </footer>
     </div>
 
     <script>
-        const { createApp, ref, computed } = Vue;
+        const { createApp, ref, computed, watch, nextTick, onMounted, onUnmounted } = Vue;
 
-        // Data derived from README.md
         const rawData = [
             {
                 id: 'crm-v1.2.2', version: 'CRM V1.2.2', type: 'CRM',
@@ -439,13 +527,12 @@
         createApp({
             setup() {
                 const currentView = ref('home');
-                const currentVersion = ref(null);
+                const currentVersionIndex = ref(0);
                 const activeFilter = ref('all');
                 const filters = ['all', 'LTC', 'CRM'];
                 const isDark = ref(false);
                 const lightboxImg = ref(null);
 
-                // Initialize Theme
                 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
                     isDark.value = true;
                     document.documentElement.classList.add('dark');
@@ -453,11 +540,7 @@
 
                 const toggleTheme = () => {
                     isDark.value = !isDark.value;
-                    if (isDark.value) {
-                        document.documentElement.classList.add('dark');
-                    } else {
-                        document.documentElement.classList.remove('dark');
-                    }
+                    document.documentElement.classList.toggle('dark');
                 };
 
                 const filteredData = computed(() => {
@@ -465,20 +548,38 @@
                     return rawData.filter(item => item.type === activeFilter.value);
                 });
 
-                const sortedVersions = computed(() => {
-                    // Sort by ID or Version Number if needed, currently just keeping array order
-                    return rawData;
-                });
+                const sortedVersions = computed(() => rawData);
+                const currentVersion = computed(() => sortedVersions.value[currentVersionIndex.value]);
 
-                const hasImages = computed(() => {
-                    if (!currentVersion.value) return false;
-                    return currentVersion.value.features.some(f => f.images && f.images.length > 0);
-                });
+                const switchSlide = (index) => {
+                    if (index >= 0 && index < sortedVersions.value.length) {
+                        currentVersionIndex.value = index;
+                        nextTick(() => {
+                            const activeTab = document.getElementById('tab-' + sortedVersions.value[index].id);
+                            if (activeTab) activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                            const slideContent = document.getElementById('slide-content');
+                            if (slideContent) slideContent.scrollTop = 0;
+                        });
+                    }
+                };
+
+                const handleKeydown = (e) => {
+                    if (currentView.value !== 'detail') return;
+                    if (['ArrowDown', 'ArrowRight', 'PageDown'].includes(e.key)) {
+                        e.preventDefault();
+                        switchSlide(currentVersionIndex.value + 1);
+                    } else if (['ArrowUp', 'ArrowLeft', 'PageUp'].includes(e.key)) {
+                        e.preventDefault();
+                        switchSlide(currentVersionIndex.value - 1);
+                    }
+                };
 
                 const openDetail = (item) => {
-                    currentVersion.value = item;
-                    currentView.value = 'detail';
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    const index = sortedVersions.value.findIndex(v => v.id === item.id);
+                    if (index !== -1) {
+                        currentVersionIndex.value = index;
+                        currentView.value = 'detail';
+                    }
                 };
 
                 const goHome = () => {
@@ -486,31 +587,31 @@
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 };
 
-                const openLightbox = (img) => {
-                    lightboxImg.value = img;
+                const scrollToGrid = () => {
+                    document.getElementById('grid-section').scrollIntoView({ behavior: 'smooth' });
                 };
 
-                const getBadgeColor = (type) => {
-                    if (type === 'LTC') return 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300';
-                    if (type === 'CRM') return 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300';
-                    return 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300';
+                const openLightbox = (img) => lightboxImg.value = img;
+
+                const getBadgeStyle = (type) => {
+                    if (type === 'LTC') return 'bg-secondary text-white border-secondary';
+                    if (type === 'CRM') return 'bg-accent text-white border-accent';
+                    return 'bg-tertiary text-foreground border-tertiary';
                 };
+
+                const getBadgeBg = (type) => {
+                    if (type === 'LTC') return 'bg-secondary';
+                    if (type === 'CRM') return 'bg-accent';
+                    return 'bg-tertiary';
+                };
+
+                onMounted(() => window.addEventListener('keydown', handleKeydown));
+                onUnmounted(() => window.removeEventListener('keydown', handleKeydown));
 
                 return {
-                    currentView,
-                    currentVersion,
-                    activeFilter,
-                    filters,
-                    filteredData,
-                    sortedVersions,
-                    isDark,
-                    toggleTheme,
-                    openDetail,
-                    goHome,
-                    getBadgeColor,
-                    hasImages,
-                    lightboxImg,
-                    openLightbox
+                    currentView, currentVersionIndex, currentVersion, activeFilter, filters,
+                    filteredData, sortedVersions, isDark, toggleTheme, openDetail, goHome,
+                    getBadgeStyle, getBadgeBg, lightboxImg, openLightbox, switchSlide, scrollToGrid
                 };
             }
         }).mount('#app');
